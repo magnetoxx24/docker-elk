@@ -11,13 +11,13 @@ services:
       - source: elastic_config
         target: /usr/share/elasticsearch/config/elasticsearch.yml
     environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ES_JAVA_OPTS: "-Xmx4G -Xms4G"
       ELASTIC_PASSWORD: changeme
     networks:
       - elk
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 3
 
   logstash:
     image: docker.elastic.co/logstash/logstash:7.2.1
@@ -30,12 +30,12 @@ services:
       - source: logstash_pipeline
         target: /usr/share/logstash/pipeline/logstash.conf
     environment:
-      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+      LS_JAVA_OPTS: "-Xmx4G -Xms4G"
     networks:
       - elk
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 3
 
   kibana:
     image: docker.elastic.co/kibana/kibana:7.2.1
@@ -48,7 +48,7 @@ services:
       - elk
     deploy:
       mode: replicated
-      replicas: 1
+      replicas: 3
 
 configs:
 
